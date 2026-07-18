@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Neurofive Solutions — Support</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #14171c;
+    --panel: #1b2028;
+    --panel-elevated: #20262f;
+    --accent: #4fd1c5;
+    --accent-soft: rgba(79, 209, 197, 0.16);
+    --user-bubble: #ece8e1;
+    --user-bubble-text: #1a1a18;
+    --text-primary: #e7e9ec;
+    --text-muted: #8b93a1;
+    --border: rgba(255, 255, 255, 0.07);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: "IBM Plex Sans", sans-serif;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    max-width: 720px;
+    margin: 0 auto;
+    height: 100vh;
+  }
+
+  /* ---------- Header: reads like a device status bar ---------- */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(79,209,197,0.05), transparent);
+  }
+
+  .brand {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .brand-name {
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 600;
+    font-size: 19px;
+    letter-spacing: -0.01em;
+  }
+
+  .brand-sub {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+  }
+
+  .status-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 0 var(--accent-soft);
+    animation: breathe 2.6s ease-in-out infinite;
+  }
+
+  @keyframes breathe {
+    0%, 100% { box-shadow: 0 0 0 0 var(--accent-soft); opacity: 0.75; }
+    50% { box-shadow: 0 0 0 6px transparent; opacity: 1; }
+  }
+
+  /* ---------- Chat area ---------- */
+  #chat {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .row {
+    display: flex;
+    gap: 10px;
+    max-width: 92%;
+  }
+
+  .row.assistant { align-self: flex-start; }
+  .row.user { align-self: flex-end; flex-direction: row-reverse; }
+
+  .avatar {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1.5px solid var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+  }
+
+  .avatar-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .bubble-col { display: flex; flex-direction: column; gap: 5px; }
+
+  .name-label {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .row.user .name-label { text-align: right; }
+
+  .bubble {
+    padding: 12px 16px;
+    border-radius: 14px;
+    line-height: 1.5;
+    font-size: 14.5px;
+    white-space: pre-wrap;
+  }
+
+  .row.assistant .bubble {
+    background: var(--panel-elevated);
+    border: 1px solid var(--border);
+    border-top-left-radius: 4px;
+  }
+
+  .row.user .bubble {
+    background: var(--user-bubble);
+    color: var(--user-bubble-text);
+    border-top-right-radius: 4px;
+  }
+
+  /* ---------- Typing indicator ---------- */
+  .typing-dots { display: flex; gap: 4px; padding: 4px 2px; }
+  .typing-dots span {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+    animation: bounce 1.2s ease-in-out infinite;
+  }
+  .typing-dots span:nth-child(2) { animation-delay: 0.15s; }
+  .typing-dots span:nth-child(3) { animation-delay: 0.3s; }
+
+  @keyframes bounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+    30% { transform: translateY(-4px); opacity: 1; }
+  }
+
+  /* ---------- Input bar ---------- */
+  #input-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 20px 22px;
+    border-top: 1px solid var(--border);
+    background: var(--bg);
+  }
+
+  #message-input {
+    flex: 1;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 13px 18px;
+    color: var(--text-primary);
+    font-family: "IBM Plex Sans", sans-serif;
+    font-size: 14.5px;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  #message-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+
+  #send-btn {
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: none;
+    background: var(--accent);
+    color: #0c1210;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.1s ease, opacity 0.15s ease;
+  }
+
+  #send-btn:hover { transform: scale(1.05); }
+  #send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+  #send-btn:focus-visible, #message-input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  #chat::-webkit-scrollbar { width: 8px; }
+  #chat::-webkit-scrollbar-thumb { background: var(--panel-elevated); border-radius: 4px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .status-dot, .typing-dots span { animation: none !important; }
+  }
+
+  @media (max-width: 480px) {
+    header { padding: 16px; }
+    #chat { padding: 16px; }
+    #input-bar { padding: 12px 14px 18px; }
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <div class="brand-name">Neurofive Solutions</div>
+      <div class="brand-sub">Halo &amp; PulseHub Support</div>
+    </div>
+    <div class="status">
+      <span class="status-dot"></span>
+      Neuro · Online
+    </div>
+  </header>
+
+  <div id="chat"></div>
+
+  <form id="input-bar">
+    <input
+      id="message-input"
+      type="text"
+      autocomplete="off"
+      placeholder="Ask about your Halo headset or PulseHub controller…"
+    />
+    <button id="send-btn" type="submit" aria-label="Send message">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <path d="M4 12H20M20 12L13 5M20 12L13 19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </form>
+
+<script>
+  const chatEl = document.getElementById('chat');
+  const form = document.getElementById('input-bar');
+  const input = document.getElementById('message-input');
+  const sendBtn = document.getElementById('send-btn');
+
+  let history = [];
+
+  function addRow(role, text) {
+    const row = document.createElement('div');
+    row.className = `row ${role}`;
+
+    const avatar = role === 'assistant'
+      ? `<div class="avatar"><div class="avatar-dot"></div></div>`
+      : '';
+
+    row.innerHTML = `
+      ${avatar}
+      <div class="bubble-col">
+        <div class="name-label">${role === 'assistant' ? 'Neuro' : 'You'}</div>
+        <div class="bubble">${escapeHtml(text)}</div>
+      </div>
+    `;
+    chatEl.appendChild(row);
+    chatEl.scrollTop = chatEl.scrollHeight;
+    return row;
+  }
+
+  function addTypingRow() {
+    const row = document.createElement('div');
+    row.className = 'row assistant';
+    row.id = 'typing-row';
+    row.innerHTML = `
+      <div class="avatar"><div class="avatar-dot"></div></div>
+      <div class="bubble-col">
+        <div class="name-label">Neuro</div>
+        <div class="bubble"><div class="typing-dots"><span></span><span></span><span></span></div></div>
+      </div>
+    `;
+    chatEl.appendChild(row);
+    chatEl.scrollTop = chatEl.scrollHeight;
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  async function sendMessage(text) {
+    addRow('user', text);
+    history.push({ role: 'user', text });
+    input.value = '';
+    sendBtn.disabled = true;
+    addTypingRow();
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text, history: history.slice(0, -1) })
+      });
+      const data = await res.json();
+      document.getElementById('typing-row')?.remove();
+
+      if (!res.ok) {
+        addRow('assistant', "Sorry, I couldn't reach the support system just now. Please try again in a moment.");
+      } else {
+        addRow('assistant', data.reply);
+        history.push({ role: 'assistant', text: data.reply });
+      }
+    } catch (err) {
+      document.getElementById('typing-row')?.remove();
+      addRow('assistant', "Sorry, I couldn't reach the support system just now. Please try again in a moment.");
+    } finally {
+      sendBtn.disabled = false;
+      input.focus();
+    }
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const text = input.value.trim();
+    if (!text) return;
+    sendMessage(text);
+  });
+
+  // Opening greeting
+  addRow('assistant', "Hi, I'm Neuro. Ask me anything about your Halo headset or PulseHub controller — setup, troubleshooting, or returns.");
+</script>
+
+</body>
+</html>
