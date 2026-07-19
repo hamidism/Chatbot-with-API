@@ -1,7 +1,7 @@
 <div align="center">
 <img src="./banner.png" width="140" height="140" style="border-radius:50%; object-fit:cover;" alt="NeuroFive Solutions"/>
-Neuro — Neurofive Solutions Support Bot
 
+   Neuro — Neurofive Solutions Support Bot
 A small multi-file demo of calling the Gemini API with a custom system
 prompt to create a persona: **Neuro**, support assistant for a fictional
 company, Neurofive Solutions.
